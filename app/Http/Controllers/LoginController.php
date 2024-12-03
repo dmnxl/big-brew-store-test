@@ -12,7 +12,7 @@ class LoginController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|min:8|regex:/[A-Z]/|regex:/[0-9]/|regex:/[\W_]/', // Enforcing password rules
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {

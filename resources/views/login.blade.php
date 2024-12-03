@@ -56,6 +56,7 @@
                         <!-- Right Login Section -->
                         <div class="col-md-6 d-flex align-items-center bg-light">
                             <div class="card-body p-4 p-lg-5 text-black">
+
                                 <form action="{{ route('login.submit') }}" method="POST">
                                     @csrf
                                     <h3 class="text-center mb-4 font-weight-bold">Big Brew Store</h3>
@@ -63,18 +64,32 @@
                                     <!-- Username Input -->
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="email">Email</label>
-                                        <input type="email" id="email" name="email" class="form-control form-control-lg" placeholder="Enter your email" />
+                                        <input type="email" id="email" name="email" class="form-control form-control-lg" placeholder="Enter your email" required />
                                     </div>
 
                                     <!-- Password Input -->
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="password">Password</label>
-                                        <input type="password" id="password" name="password" class="form-control form-control-lg" placeholder="Enter your password" />
+                                        <div class="input-group">
+                                            <input type="password" id="password" name="password"
+                                                class="form-control form-control-lg" placeholder="Enter your password" required />
+                                            <span class="input-group-text" onclick="togglePasswordVisibility()"
+                                                style="cursor: pointer;">
+                                                <i id="togglePasswordIcon" class="bx bx-show"></i>
+                                            </span>
+                                        </div>
                                     </div>
 
                                     <!-- Login Button -->
                                     <div class="d-grid gap-2">
                                         <button type="submit" class="btn btn-lg btn-block text-white" style="background-color: #B46A1F">Log In</button>
+                                    </div>
+
+                                    <!-- Forgot Password Button -->
+                                    <div class="text-center mt-3">
+                                        <button type="button" class="btn btn-link" style="color: #B46A1F;" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
+                                            Forgot Password?
+                                        </button>
                                     </div>
                                 </form>
 
@@ -87,9 +102,47 @@
         </div>
     </div>
 
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalLabel">Reset Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('password.email') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Enter your email address:</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <button type="submit" class="btn" style="background-color: #B46A1F; color: white; font-weight: 100;">Send Password Reset Link</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://unpkg.com/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+    </script>
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            const toggleIcon = document.getElementById('togglePasswordIcon');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleIcon.classList.remove('bx-show');
+                toggleIcon.classList.add('bx-hide');
+            } else {
+                passwordField.type = 'password';
+                toggleIcon.classList.remove('bx-hide');
+                toggleIcon.classList.add('bx-show');
+            }
+        }
     </script>
 
 </body>

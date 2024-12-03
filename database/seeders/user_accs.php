@@ -1,25 +1,36 @@
 <?php
 
-namespace Database\Seeders;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use App\Models\UserAcc;
 
-use Illuminate\Database\Seeder;
-use App\Models\UserAcc; // Import the UserAcc model
-
-class user_accs extends Seeder
+class AddSuperAdminUser extends Migration
 {
     /**
-     * Run the database seeds.
+     * Run the migrations.
      *
      * @return void
      */
-    public function run()
+    public function up()
     {
-        // Create a sample user account
+        // Add a super admin account directly into the user_accs table
         UserAcc::create([
-            'name' => 'sample_user', // Change 'username' to 'name' based on your migration
-            'email' => 'sample_user@example.com',
-            'password' => 'password123', // Will be hashed automatically by the model
-            'role' => 1, // Assign a role (e.g., 0 for user, 1 for admin)
+            'name' => 'super_admin',
+            'email' => 'super_admin@example.com',
+            'password' => bcrypt('Password123!'), // Using bcrypt here
+            'role' => 0, // Super admin role
         ]);
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        // If needed, you can rollback the super admin user
+        UserAcc::where('email', 'super_admin@example.com')->delete();
     }
 }

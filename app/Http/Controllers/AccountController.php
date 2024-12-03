@@ -22,7 +22,7 @@ class AccountController extends Controller
         $request->validate([
             'username' => 'required|max:255',
             'email' => 'required|email|max:255|unique:user_accs,email',
-            'password' => 'required|min:8',
+            'password' => 'required|min:8|regex:/[A-Z]/|regex:/[0-9]/|regex:/[\W_]/', // Enforcing password rules
             'role' => 'required|integer'
         ]);
 
@@ -85,7 +85,7 @@ class AccountController extends Controller
         $request->validate([
             'username' => 'required|max:255',
             'email' => 'required|email|max:255|unique:user_accs,email,' . $user->id,
-            'password' => 'nullable|min:8|confirmed',
+            'password' => 'nullable|min:8|confirmed|regex:/[A-Z]/|regex:/[0-9]/|regex:/[\W_]/',
             'role' => 'required|integer'
         ]);
 
